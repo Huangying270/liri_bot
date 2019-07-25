@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Huangying270/liri_bot#readme",
   "dependencies": {
     "axios": "^0.19.0",
-    "dotenv": "^8.0.0"
+    "dotenv": "^8.0.0",
+    "node-spotify-api": "^1.1.1"
   }
 }
