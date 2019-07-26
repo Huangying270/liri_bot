@@ -13,10 +13,6 @@ var spotify = new Spotify(keys.spotify);
 var command = process.argv[2];
 console.log(command);
 
-// "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
-
-// "https://www.omdbapi.com/?t=" + movie + "&apikey=trilogy"
-
 var searchTerm = process.argv.slice(3).join(" ");
 console.log(searchTerm);
 
@@ -50,37 +46,37 @@ function searchOMDB(movie) {
 
     var queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy";
 
-// This line is just to help us debug against the actual URL.
-console.log(queryUrl);
+    // This line is just to help us debug against the actual URL.
+    console.log(queryUrl);
 
-axios.get(queryUrl).then(
-  function(response) {
+    axios.get(queryUrl).then(
+        function (response) {
 
-    //console.log(response);
-    // console log homework requirements
-    console.log(response.data.Title);
+            //console.log(response);
+            // console log homework requirements
+            console.log(response.data.Title);
 
-  })
-  .catch(function(error) {
-    if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.log("---------------Data---------------");
-      console.log(error.response.data);
-      console.log("---------------Status---------------");
-      console.log(error.response.status);
-      console.log("---------------Status---------------");
-      console.log(error.response.headers);
-    } else if (error.request) {
-      // The request was made but no response was received
-      // `error.request` is an object that comes back with details pertaining to the error that occurred.
-      console.log(error.request);
-    } else {
-      // Something happened in setting up the request that triggered an Error
-      console.log("Error", error.message);
-    }
-    console.log(error.config);
-  });
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log("---------------Data---------------");
+                console.log(error.response.data);
+                console.log("---------------Status---------------");
+                console.log(error.response.status);
+                console.log("---------------Status---------------");
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an object that comes back with details pertaining to the error that occurred.
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        });
 
 }
 
@@ -88,48 +84,90 @@ function searchBIT(artist) {
 
     var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp";
 
+    axios.get(queryUrl).then(
+        function (response) {
+
+            console.log(response);
+
+        })
+        .catch(function (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log("---------------Data---------------");
+                console.log(error.response.data);
+                console.log("---------------Status---------------");
+                console.log(error.response.status);
+                console.log("---------------Status---------------");
+                console.log(error.response.headers);
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an object that comes back with details pertaining to the error that occurred.
+                console.log(error.request);
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log("Error", error.message);
+            }
+            console.log(error.config);
+        });
 }
 
 function searchSpotify(song) {
 
-    spotify.search({ type: 'track', query: song }, function(err, data) {
+    spotify.search({ type: 'track', query: song }, function (err, data) {
         if (err) {
-          return console.log('Error occurred: ' + err);
+            return console.log('Error occurred: ' + err);
         }
-       
-      console.log(data.tracks.items[0]); 
-      });
+
+        console.log(data.tracks.items[0]);
+    });
 }
 
 function doWhatOtSays() {
-    // activity 12 unit 10
-    // copy fs.readFile from activty
-    // change file name being read to desired file
 
-    //within readFile function
-    switch (dataArr[0]) {
+    fs.readFile("random.txt", "utf8", function (err, data) {
 
-        case "concert-this":
-        //search bands in town
-        searchBIT(dataArr[1]);
-        break;
+        // If the code experiences any errors it will log the error to the console.
+        if (err) {
+            return console.log(err);
+        }
 
-    case "movie-this":
-        //search omdb
-        searchOMDB(dataArr[1]);
-        break;
+        // We will then print the contents of data
+        console.log(data);
 
-    case "spotify-this-song":
-        //search spotify
-        searchSpotify(dataArr[1]);
-        break;
+        // Then split it by commas (to make it more readable)
+        var dataArr = data.split(",");
 
-    case "do-what-it-says":
-        // follow text in random.txt
-        doWhatOtSays();
-        break;
+        // We will then re-display the content as an array for later use.
+        console.log(dataArr);
 
-    default:
-        console.log("Please enter a valid search command");
-    }
+
+
+        //within readFile function
+        switch (dataArr[0]) {
+
+            case "concert-this":
+                //search bands in town
+                searchBIT(dataArr[1]);
+                break;
+
+            case "movie-this":
+                //search omdb
+                searchOMDB(dataArr[1]);
+                break;
+
+            case "spotify-this-song":
+                //search spotify
+                searchSpotify(dataArr[1]);
+                break;
+
+            case "do-what-it-says":
+                // follow text in random.txt
+                doWhatOtSays();
+                break;
+
+            default:
+                console.log("Please enter a valid search command");
+        }
+    });
 }
