@@ -87,7 +87,13 @@ function searchBIT(artist) {
     axios.get(queryUrl).then(
         function (response) {
 
-            console.log(response);
+            //console.log(response.data[0]);
+            var BITdata = response.data[0];
+
+            console.log("Venue name: " + BITdata.venue.name);
+            console.log("Country: " + BITdata.venue.country);
+            console.log("City: " + BITdata.venue.city);
+            console.log("Date: " + BITdata.datetime);
 
         })
         .catch(function (error) {
