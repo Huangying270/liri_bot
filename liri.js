@@ -52,9 +52,16 @@ function searchOMDB(movie) {
     axios.get(queryUrl).then(
         function (response) {
 
-            //console.log(response);
-            // console log homework requirements
-            console.log(response.data.Title);
+            //console.log(response.data);
+            var movieData = response.data;
+
+            console.log(movieData.Title);
+            console.log(movieData.imdbRating);
+            console.log(movieData.Ratings[1]);
+            console.log(movieData.Country);
+            console.log(movieData.Language);
+            console.log(movieData.Plot);
+            console.log(movieData.Actors);
 
         })
         .catch(function (error) {
@@ -125,7 +132,14 @@ function searchSpotify(song) {
             return console.log('Error occurred: ' + err);
         }
 
-        console.log(data.tracks.items[0]);
+        //console.log(data.tracks.items[0]);
+        var songData = data.tracks.items[0];
+
+        console.log(songData.artists[0].name);
+        console.log(songData.name);
+        console.log(songData.external_urls.spotify);
+        console.log(songData.album.name);
+
     });
 }
 
